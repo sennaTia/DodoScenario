@@ -105,7 +105,8 @@ public class MyDodo extends Dodo
      */
 
     public void walkToWorldEdgePrintingCoordinates( ){
-        while( ! borderAhead() ){
+        
+            while (!borderAhead()) {
             
             move();
         }
@@ -148,6 +149,14 @@ public class MyDodo extends Dodo
         turnLeft();
     }
     
+    public void goBackToStartOfRowAndFaceBack() {
+    turn180();
+    while (canMove()) {
+        move();
+    }
+    turn180();
+}
+    
     public boolean grainAhead() {
         move();
         if (onGrain()) {
@@ -163,7 +172,19 @@ public class MyDodo extends Dodo
             turn180();
             return false;
         }
+    }
+    
+    
+    public void goToEgg () {
+        while (!onEgg()) {
+        move();
+    }
+    }
+        
+        
+      
+}
             
         
-    }
-}
+    
+
