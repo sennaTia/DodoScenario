@@ -44,7 +44,7 @@ public class MyDodo extends Dodo
      *                      (an obstruction or end of world ahead)
      */
     public boolean canMove() {
-        if ( borderAhead() ){
+        if ( borderAhead() || fenceAhead()){
             return false;
         } else {
             return true;
@@ -140,6 +140,25 @@ public class MyDodo extends Dodo
     
     public void climbOverFence() {
         turnLeft();
+        move();
+        turnRight();
+        move();
+        move();
+        turnRight();
+        move();
+        turnLeft();
+    }
+    
+    public void climbOverFenceDouble() {
+         turnLeft();
+        move();
+        turnRight();
+        move();
+        move();
+        turnRight();
+        move();
+        turnLeft();
+         turnLeft();
         move();
         turnRight();
         move();
