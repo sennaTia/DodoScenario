@@ -149,24 +149,27 @@ public class MyDodo extends Dodo
         turnLeft();
     }
     
-    public void climbOverFenceDouble() {
-         turnLeft();
-        move();
-        turnRight();
-        move();
-        move();
-        turnRight();
-        move();
-        turnLeft();
-         turnLeft();
-        move();
-        turnRight();
-        move();
-        move();
-        turnRight();
-        move();
-        turnLeft();
+    
+    
+    public void walkToWorldEdgeClimbingOverFences() {
+          while (!isAtWorldEdge()) {
+        if (isFenceInFront()) {
+            climbOverFence();
+        } else {
+            move();
+        }
     }
+    }
+    
+    
+    public boolean isAtWorldEdge() {
+    return getX() == getWorld().getWidth() - 1;
+}
+
+public boolean isFenceInFront() {
+    Actor fence = getOneObjectAtOffset(1, 0, Fence.class);
+    return fence != null;
+}
     
     public void goBackToStartOfRowAndFaceBack() {
     turn180();
