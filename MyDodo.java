@@ -13,6 +13,11 @@ public class MyDodo extends Dodo
         super( EAST );
         myNrOfEggsHatched = 0;
     }
+    
+    
+
+    
+
 
     public void act() {
     }
@@ -50,6 +55,29 @@ public class MyDodo extends Dodo
             return true;
         }
     }
+    
+    public void pickUpGrainsAndPrintCoordinates() {
+    while (canMove()) {
+        checkForGrain();
+        move();
+    }
+    checkForGrain();
+}
+
+public void checkForGrain() {
+    Grain grain = (Grain)getOneObjectAtOffset(0, 0, Grain.class);
+    if (grain != null) {
+        System.out.println("Graan gevonden op (" + getX() + ", " + getY() + ")");
+        getWorld().removeObject(grain);
+    }
+}
+
+public void stepOneCellBackwards () {
+    turn180 ();
+    move ();
+    turn180 ();
+}
+
 
     /**
      * Hatches the egg in the current cell by removing
