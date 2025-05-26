@@ -13,11 +13,6 @@ public class MyDodo extends Dodo
         super( EAST );
         myNrOfEggsHatched = 0;
     }
-    
-    
-
-    
-
 
     public void act() {
     }
@@ -78,7 +73,6 @@ public void stepOneCellBackwards () {
     turn180 ();
 }
 
-
     /**
      * Hatches the egg in the current cell by removing
      * the egg from the cell.
@@ -121,9 +115,6 @@ public void stepOneCellBackwards () {
         }
     }
 
-    
-    
-    
     /**
      * Walks to edge of the world printing the coordinates at each step
      * 
@@ -177,8 +168,6 @@ public void stepOneCellBackwards () {
         turnLeft();
     }
     
-    
-    
     public void walkToWorldEdgeClimbingOverFences() {
           while (!isAtWorldEdge()) {
         if (isFenceInFront()) {
@@ -188,7 +177,6 @@ public void stepOneCellBackwards () {
         }
     }
     }
-    
     
     public boolean isAtWorldEdge() {
     return getX() == getWorld().getWidth() - 1;
@@ -224,15 +212,11 @@ public boolean isFenceInFront() {
         }
     }
     
-    
     public void goToEgg () {
         while (!onEgg()) {
         move();
     }
-    }
-        
-        
-      
+    } 
 }
             
         
