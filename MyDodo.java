@@ -17,6 +17,9 @@ public class MyDodo extends Dodo
     public void act() {
     }
 
+    
+
+
     /**
      * Move one cell forward in the current direction.
      * 
@@ -30,6 +33,16 @@ public class MyDodo extends Dodo
         } else {
             showError( "I'm stuck!" );
         }
+    }
+    
+    public void eggTrailToNest () {
+        while(eggAhead()) {
+            goToEgg();
+            if (!eggAhead()) {
+              turnRight();
+            }
+        }
+    
     }
 
     /**
