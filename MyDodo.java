@@ -35,16 +35,56 @@ public class MyDodo extends Dodo
         }
     }
     
-    public void eggTrailToNest () {
-        while(eggAhead()) {
-            goToEgg();
-            if (!eggAhead()) {
-              turnRight();
+       public boolean eggToRight(){
+        turnRight();
+        boolean ahead = eggAhead();
+        turnLeft();
+        return ahead;
+    }
+    
+    public boolean eggToLeft(){
+        turnLeft();
+        boolean ahead = eggAhead();
+        turnRight();
+        return ahead;
+    }
+    
+    public void locateNest(){
+        if (!nestAhead()) {
+            turnLeft();
+        }
+        if (!nestAhead()) {
+            turnLeft();
+        }
+        if (!nestAhead()) {
+            turnLeft();
+        }
+        if (!nestAhead()) {
+            turnLeft();
+        }
+    }
+    
+        public void eggTrailToNest(){
+        while (!onNest()) {
+            if (eggAhead()){
+                move();
+                pickUpEgg();
+            } else if (eggToRight()) {
+                turnRight();
+                move();
+                pickUpEgg();
+            } else if (eggToLeft()) {
+                turnLeft();
+                move();
+                pickUpEgg();
+            } else if (!nestAhead()){
+                locateNest();
+                move();
+            } else {
+                break;
             }
         }
-    
     }
-
     /**
      * Test if Dodo can move forward, (there are no obstructions
      *    or end of world in the cell in front of her).
