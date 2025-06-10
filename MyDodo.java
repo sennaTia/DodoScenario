@@ -16,6 +16,129 @@ public class MyDodo extends Dodo
 
     public void act() {
     }
+    
+    public void faceSouth(){
+        while (getDirection() != SOUTH) {
+            turnRight();
+        }
+    }
+
+    public void faceWest(){
+        while (getDirection() != WEST) {
+            turnRight();
+        }
+    }
+    
+        public void faceNorth(){
+        while (getDirection() != NORTH) {
+            turnRight();
+        }
+    }
+
+    public void faceEast(){
+        while (getDirection() != EAST) {
+            turnRight();
+        }
+    }
+
+    
+    public boolean fenceRight() {
+        boolean x;
+        turnRight();
+        x = fenceAhead();
+        turnLeft();
+        return x;
+    }
+    
+    public boolean fenceLeft() {
+        boolean x;
+        turnLeft();
+        x = fenceAhead();
+        turnRight();
+        return x;
+    }
+    
+    public void simpleMaze(){
+        while (!onNest()){
+            if (!fenceRight()){
+                turnRight();
+                move();
+            } else if (!fenceAhead()) {
+                move();
+            } else if (!fenceLeft()) {
+                turnLeft();
+                move();
+            } else {
+                turn180();
+            }
+        }
+    }
+    
+        public void goToLocation(int coordX, int coordY){
+        if (validCoordinates(coordX, coordY)) {
+            while (!locationReached(coordX, coordY)) {
+                if (getX() < coordX) {
+                    faceEast();
+                    move();
+                } else if (getX() > coordX) {
+                    faceWest();
+                    move();
+                } if (getY() < coordY) {
+                    faceSouth();
+                    move();
+                } else if (getY() > coordY) {
+                    faceNorth();
+                    move();
+                }
+                faceEast();
+            }
+        }
+    }
+    
+    public boolean locationReached(int x, int y){
+        if (getX() == x && getY() == y) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean validCoordinates(int x, int y){
+        if (x > getWorld().getWidth()-1 || y > getWorld().getHeight()-1) {
+            showError ("Invalid coordinates");
+            return false;
+        } else {
+            return true;
+        }
+    }
+    
+        public int countEggsInRow() {
+        int totalEggs = 0;
+        while (! borderAhead()) {
+            if (onEgg()) {
+                totalEggs++;
+            }
+            move();
+        }
+        if (onEgg()) {
+            totalEggs++;
+        }
+        goBackToStartOfRowAndFaceBack();
+        return totalEggs;
+    } 
+    
+        public void layTrailOfEggs(int n) {
+        if (n <= 0) {
+            System.out.println("Fout: aantal eieren moet groter zijn dan 0.");
+            return;
+        }
+        for (int i = 0; i < n; i++) {
+            layEgg();
+            move();  
+        }
+        //layEgg();
+    }
+    
+    
 
     
 
@@ -85,6 +208,7 @@ public class MyDodo extends Dodo
             }
         }
     }
+    
     /**
      * Test if Dodo can move forward, (there are no obstructions
      *    or end of world in the cell in front of her).
