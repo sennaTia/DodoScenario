@@ -13,6 +13,136 @@ public class MyDodo extends Dodo
         super( EAST );
         myNrOfEggsHatched = 0;
     }
+    
+        public int totalEggsInWorld(){
+        goToLocation(0,0);
+        boolean end = false;
+        int totalEggs = 0;
+        while (end==false) {
+            totalEggs = totalEggs + countEggsInRow();
+            goBackToStartOfRowAndFaceBack();
+            turnRight();
+            if (borderAhead()) {
+                end = true;
+                break;
+            }
+            move();
+            turnLeft();
+        }
+        turnLeft();
+        return totalEggs;
+    }
+    
+        public int mostEggsInRow(){
+        boolean end = false;
+        int mostEggs = 0;
+        int rowEggs = 0;
+        int row = 0;
+        int mostEggsRow = 0;
+        int startX = getX();
+        int startY = getY();
+        goToLocation(0,0);
+        while (end==false) {
+            row++;
+            rowEggs = countEggsInRow();
+            if (rowEggs >= mostEggs) {
+                mostEggs = rowEggs;
+                mostEggsRow = row;
+            }
+            goBackToStartOfRowAndFaceBack();
+            turnRight();
+            if (borderAhead()) {
+                end = true;
+                break;
+            }
+            move();
+            turnLeft();
+        }
+        goToLocation(startX,startY);
+        turnLeft();
+        return mostEggsRow;
+    }
+    
+        public void monumentOfEggs() {
+        int row = 0;
+        boolean done = false;
+        while (!done) {
+            if (!validCoordinates(0, row)) {
+                done = true;
+                break;
+            }
+            goToLocation(0, row);
+            faceEast();
+            int column = 0;
+            while (true) {
+                if (!validCoordinates(column, row)) {
+                    break;
+                }
+                if (column <= row) {
+                    if (canLayEgg()) {
+                        layEgg();
+                    }
+                }
+                if (!borderAhead()) {
+                    move();
+                    column++;
+                } else {
+                    break;
+                }
+            }
+            row++;
+        }
+    }
+    
+        public void monumentOfEggs2() {
+        int eggsInRow = 1;
+        int startX = getX();
+        int startY = getY();
+        int worldWidth = getWorld().getWidth();
+        int worldHeight = getWorld().getHeight();
+        int row = 0;
+        while (startY + row < worldHeight && startX + eggsInRow - 1 < worldWidth) {
+            goToLocation(startX, startY + row);
+            faceEast();
+            int layed = 0;
+            while (layed < eggsInRow && !borderAhead()) {
+                if (canLayEgg()) {
+                    layEgg();
+                }
+                layed++;
+                if (layed < eggsInRow && !borderAhead()) {
+                    move();
+                }
+            }
+            eggsInRow *= 2;
+            row++;
+        }
+    }
+    
+        public void stablePyramidOfEggs() {
+        int stappenNaarLinks = 2;
+        int eierenLeggen = 1;
+        while (getY() < getWorld().getHeight() - 1) {
+            layTrailOfEggs(eierenLeggen);
+            eierenLeggen += 2;
+            for (int w = 0; w < stappenNaarLinks; w++) {
+                if (getX() != 0) {
+                    stepOneCellBackwards();
+                } else {
+                    return;
+                }
+            }
+            stappenNaarLinks += 2;
+            faceSouth();
+            if (canMove()) {
+                move();
+            } else {
+                return;
+            }
+            faceEast();
+        }
+        layTrailOfEggs(eierenLeggen);
+    }
 
     public void act() {
     }
