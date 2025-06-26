@@ -364,21 +364,21 @@ public class MyDodo extends Dodo
         move();
     }
     checkForGrain();
-}
+    }
 
-public void checkForGrain() {
+    public void checkForGrain() {
     Grain grain = (Grain)getOneObjectAtOffset(0, 0, Grain.class);
     if (grain != null) {
         System.out.println("Graan gevonden op (" + getX() + ", " + getY() + ")");
         getWorld().removeObject(grain);
     }
-}
+    }
 
-public void stepOneCellBackwards () {
+    public void stepOneCellBackwards () {
     turn180 ();
     move ();
     turn180 ();
-}
+     }
 
     /**
      * Hatches the egg in the current cell by removing
@@ -487,12 +487,12 @@ public void stepOneCellBackwards () {
     
     public boolean isAtWorldEdge() {
     return getX() == getWorld().getWidth() - 1;
-}
+    }
 
-public boolean isFenceInFront() {
+    public boolean isFenceInFront() {
     Actor fence = getOneObjectAtOffset(1, 0, Fence.class);
     return fence != null;
-}
+    }
     
     public void goBackToStartOfRowAndFaceBack() {
     turn180();
@@ -500,7 +500,7 @@ public boolean isFenceInFront() {
         move();
     }
     turn180();
-}
+    }
     
     public boolean grainAhead() {
         move();
