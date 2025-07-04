@@ -9,12 +9,14 @@ public class MyDodo extends Dodo
 {
     private int myNrOfEggsHatched;
     
+    // Maakt een dodo die naar het oosten kijkt en begint met 0 eieren
     public MyDodo() {
         super( EAST );
         myNrOfEggsHatched = 0;
     }
     
-        public int totalEggsInWorld(){
+    // Telt alle eieren in de wereld op
+    public int totalEggsInWorld(){
         goToLocation(0,0);
         boolean end = false;
         int totalEggs = 0;
@@ -33,7 +35,8 @@ public class MyDodo extends Dodo
         return totalEggs;
     }
     
-        public int mostEggsInRow(){
+    // Zoekt welke rij de meeste eieren heeft
+    public int mostEggsInRow(){
         boolean end = false;
         int mostEggs = 0;
         int rowEggs = 0;
@@ -63,7 +66,8 @@ public class MyDodo extends Dodo
         return mostEggsRow;
     }
     
-        public void monumentOfEggs() {
+    // Legt eieren in een driehoekvorm in de wereld
+    public void monumentOfEggs() {
         int row = 0;
         boolean done = false;
         while (!done) {
@@ -94,7 +98,8 @@ public class MyDodo extends Dodo
         }
     }
     
-        public void monumentOfEggs2() {
+    // Legt eieren waarbij het aantal per rij steeds verdubbelt
+    public void monumentOfEggs2() {
         int eggsInRow = 1;
         int startX = getX();
         int startY = getY();
@@ -119,7 +124,8 @@ public class MyDodo extends Dodo
         }
     }
     
-        public void stablePyramidOfEggs() {
+    // Maakt een piramide van eieren met steeds meer eieren per rij
+    public void stablePyramidOfEggs() {
         int stappenNaarLinks = 2;
         int eierenLeggen = 1;
         while (getY() < getWorld().getHeight() - 1) {
@@ -144,388 +150,355 @@ public class MyDodo extends Dodo
         layTrailOfEggs(eierenLeggen);
     }
 
+    // Wordt steeds uitgevoerd (nu leeg)
     public void act() {
     }
     
+    // Laat de dodo naar het zuiden kijken
     public void faceSouth(){
         while (getDirection() != SOUTH) {
             turnRight();
         }
     }
 
+    // Laat de dodo naar het westen kijken
     public void faceWest(){
         while (getDirection() != WEST) {
             turnRight();
         }
     }
     
-        public void faceNorth(){
+    // Laat de dodo naar het noorden kijken
+    public void faceNorth(){
         while (getDirection() != NORTH) {
             turnRight();
         }
     }
 
+    // Laat de dodo naar het oosten kijken
     public void faceEast(){
         while (getDirection() != EAST) {
             turnRight();
         }
     }
 
-    
-    public boolean fenceRight() {
-        boolean x;
-        turnRight();
-        x = fenceAhead();
-        turnLeft();
-        return x;
-    }
-    
-    public boolean fenceLeft() {
-        boolean x;
-        turnLeft();
-        x = fenceAhead();
-        turnRight();
-        return x;
-    }
-    
-    public void simpleMaze(){
-        while (!onNest()){
-            if (!fenceRight()){
-                turnRight();
-                move();
-            } else if (!fenceAhead()) {
-                move();
-            } else if (!fenceLeft()) {
-                turnLeft();
-                move();
-            } else {
-                turn180();
-            }
-        }
-    }
-    
-        public void goToLocation(int coordX, int coordY){
-        if (validCoordinates(coordX, coordY)) {
-            while (!locationReached(coordX, coordY)) {
-                if (getX() < coordX) {
-                    faceEast();
-                    move();
-                } else if (getX() > coordX) {
-                    faceWest();
-                    move();
-                } if (getY() < coordY) {
-                    faceSouth();
-                    move();
-                } else if (getY() > coordY) {
-                    faceNorth();
-                    move();
-                }
-                faceEast();
-            }
-        }
-    }
-    
-    public boolean locationReached(int x, int y){
-        if (getX() == x && getY() == y) {
-            return true;
-        }
-        return false;
-    }
 
-    public boolean validCoordinates(int x, int y){
-        if (x > getWorld().getWidth()-1 || y > getWorld().getHeight()-1) {
-            showError ("Invalid coordinates");
-            return false;
+    
+    // Controleert of er een hek aan de rechterkant staat
+public boolean fenceRight() {
+    boolean x;
+    turnRight();
+    x = fenceAhead();
+    turnLeft();
+    return x;
+}
+
+// Controleert of er een hek aan de linkerkant staat
+public boolean fenceLeft() {
+    boolean x;
+    turnLeft();
+    x = fenceAhead();
+    turnRight();
+    return x;
+}
+
+// Loopt een simpel doolhof uit tot bij het nest
+public void simpleMaze(){
+    while (!onNest()){
+        if (!fenceRight()){
+            turnRight();
+            move();
+        } else if (!fenceAhead()) {
+            move();
+        } else if (!fenceLeft()) {
+            turnLeft();
+            move();
         } else {
-            return true;
+            turn180();
         }
     }
-    
-        public int countEggsInRow() {
-        int totalEggs = 0;
-        while (! borderAhead()) {
-            if (onEgg()) {
-                totalEggs++;
+}
+
+// Gaat naar een bepaalde plek in de wereld (x, y)
+public void goToLocation(int coordX, int coordY){
+    if (validCoordinates(coordX, coordY)) {
+        while (!locationReached(coordX, coordY)) {
+            if (getX() < coordX) {
+                faceEast();
+                move();
+            } else if (getX() > coordX) {
+                faceWest();
+                move();
+            } if (getY() < coordY) {
+                faceSouth();
+                move();
+            } else if (getY() > coordY) {
+                faceNorth();
+                move();
             }
-            move();
+            faceEast();
         }
+    }
+}
+
+// Controleert of dodo op positie (x, y) staat
+public boolean locationReached(int x, int y){
+    if (getX() == x && getY() == y) {
+        return true;
+    }
+    return false;
+}
+
+// Controleert of de coördinaten geldig zijn binnen de wereld
+public boolean validCoordinates(int x, int y){
+    if (x > getWorld().getWidth()-1 || y > getWorld().getHeight()-1) {
+        showError ("Invalid coordinates");
+        return false;
+    } else {
+        return true;
+    }
+}
+
+// Telt hoeveel eieren er in de huidige rij liggen
+public int countEggsInRow() {
+    int totalEggs = 0;
+    while (! borderAhead()) {
         if (onEgg()) {
             totalEggs++;
         }
-        goBackToStartOfRowAndFaceBack();
-        return totalEggs;
-    } 
-    
-        public void layTrailOfEggs(int n) {
-        if (n <= 0) {
-            System.out.println("Fout: aantal eieren moet groter zijn dan 0.");
-            return;
-        }
-        for (int i = 0; i < n; i++) {
-            layEgg();
-            move();  
-        }
-        //layEgg();
+        move();
     }
-    
-    
-
-    
-
-
-    /**
-     * Move one cell forward in the current direction.
-     * 
-     * <P> Initial: Dodo is somewhere in the world
-     * <P> Final: If possible, Dodo has moved forward one cell
-     *
-     */
-    public void move() {
-        if ( canMove() ) {
-            step();
-        } else {
-            showError( "I'm stuck!" );
-        }
+    if (onEgg()) {
+        totalEggs++;
     }
-    
-       public boolean eggToRight(){
-        turnRight();
-        boolean ahead = eggAhead();
+    goBackToStartOfRowAndFaceBack();
+    return totalEggs;
+} 
+
+// Legt een rij van n eieren en loopt mee naar voren
+public void layTrailOfEggs(int n) {
+    if (n <= 0) {
+        System.out.println("Fout: aantal eieren moet groter zijn dan 0.");
+        return;
+    }
+    for (int i = 0; i < n; i++) {
+        layEgg();
+        move();  
+    }
+}
+
+// Verplaatst de dodo 1 stap vooruit als dat kan
+public void move() {
+    if ( canMove() ) {
+        step();
+    } else {
+        showError( "I'm stuck!" );
+    }
+}
+
+// Checkt of er een ei rechts van de dodo ligt
+public boolean eggToRight(){
+    turnRight();
+    boolean ahead = eggAhead();
+    turnLeft();
+    return ahead;
+}
+
+// Checkt of er een ei links van de dodo ligt
+public boolean eggToLeft(){
+    turnLeft();
+    boolean ahead = eggAhead();
+    turnRight();
+    return ahead;
+}
+
+// Draait de dodo totdat hij naar het nest kijkt
+public void locateNest(){
+    if (!nestAhead()) {
         turnLeft();
-        return ahead;
     }
-    
-    public boolean eggToLeft(){
+    if (!nestAhead()) {
         turnLeft();
-        boolean ahead = eggAhead();
-        turnRight();
-        return ahead;
     }
-    
-    public void locateNest(){
-        if (!nestAhead()) {
-            turnLeft();
-        }
-        if (!nestAhead()) {
-            turnLeft();
-        }
-        if (!nestAhead()) {
-            turnLeft();
-        }
-        if (!nestAhead()) {
-            turnLeft();
-        }
+    if (!nestAhead()) {
+        turnLeft();
     }
-    
-        public void eggTrailToNest(){
-        while (!onNest()) {
-            if (eggAhead()){
-                move();
-                pickUpEgg();
-            } else if (eggToRight()) {
-                turnRight();
-                move();
-                pickUpEgg();
-            } else if (eggToLeft()) {
-                turnLeft();
-                move();
-                pickUpEgg();
-            } else if (!nestAhead()){
-                locateNest();
-                move();
-            } else {
-                break;
-            }
-        }
+    if (!nestAhead()) {
+        turnLeft();
     }
+}
+
     
-    /**
-     * Test if Dodo can move forward, (there are no obstructions
-     *    or end of world in the cell in front of her).
-     * 
-     * <p> Initial: Dodo is somewhere in the world
-     * <p> Final:   Same as initial situation
-     * 
-     * @return boolean true if Dodo can move (no obstructions ahead)
-     *                 false if Dodo can't move
-     *                      (an obstruction or end of world ahead)
-     */
-    public boolean canMove() {
-        if ( borderAhead() || fenceAhead()){
-            return false;
+     // Verzamelt eieren die op de weg naar het nest liggen
+public void eggTrailToNest(){
+    while (!onNest()) {
+        if (eggAhead()){
+            move();
+            pickUpEgg();
+        } else if (eggToRight()) {
+            turnRight();
+            move();
+            pickUpEgg();
+        } else if (eggToLeft()) {
+            turnLeft();
+            move();
+            pickUpEgg();
+        } else if (!nestAhead()){
+            locateNest();
+            move();
         } else {
-            return true;
+            break;
         }
     }
-    
-    public void pickUpGrainsAndPrintCoordinates() {
+}
+
+// Checkt of Dodo naar voren kan lopen (geen hek of grens)
+public boolean canMove() {
+    if ( borderAhead() || fenceAhead()){
+        return false;
+    } else {
+        return true;
+    }
+}
+
+// Loopt vooruit en pakt alle korrels op die je tegenkomt
+public void pickUpGrainsAndPrintCoordinates() {
     while (canMove()) {
         checkForGrain();
         move();
     }
     checkForGrain();
-    }
+}
 
-    public void checkForGrain() {
+// Controleert of er korrels op de plek zijn en haalt ze weg
+public void checkForGrain() {
     Grain grain = (Grain)getOneObjectAtOffset(0, 0, Grain.class);
     if (grain != null) {
         System.out.println("Graan gevonden op (" + getX() + ", " + getY() + ")");
         getWorld().removeObject(grain);
     }
-    }
+}
 
-    public void stepOneCellBackwards () {
+// Loopt één stap achteruit
+public void stepOneCellBackwards () {
     turn180 ();
     move ();
     turn180 ();
-     }
+}
 
-    /**
-     * Hatches the egg in the current cell by removing
-     * the egg from the cell.
-     * Gives an error message if there is no egg
-     * 
-     * <p> Initial: Dodo is somewhere in the world. There is an egg in Dodo's cell.
-     * <p> Final: Dodo is in the same cell. The egg has been removed (hatched).     
-     */    
-    public void hatchEgg () {
-        if ( onEgg() ) {
-            pickUpEgg();
-            myNrOfEggsHatched++;
-        } else {
-            showError( "There was no egg in this cell" );
-        }
+// Laat een ei in de huidige cel uitkomen (verwijdert ei)
+public void hatchEgg () {
+    if ( onEgg() ) {
+        pickUpEgg();
+        myNrOfEggsHatched++;
+    } else {
+        showError( "There was no egg in this cell" );
     }
-    
-    /**
-     * Returns the number of eggs Dodo has hatched so far.
-     * 
-     * @return int number of eggs hatched by Dodo
-     */
-    public int getNrOfEggsHatched() {
-        return myNrOfEggsHatched;
-    }
-    
-    /**
-     * Move given number of cells forward in the current direction.
-     * 
-     * <p> Initial:   
-     * <p> Final:  
-     * 
-     * @param   int distance: the number of steps made
-     */
-    public void jump( int distance ) {
-        int nrStepsTaken = 0;               // set counter to 0
-        while ( nrStepsTaken < distance ) { // check if more steps must be taken  
-            move();                         // take a step
-            nrStepsTaken++;                 // increment the counter
-        }
-    }
+}
 
-    /**
-     * Walks to edge of the world printing the coordinates at each step
-     * 
-     * <p> Initial: Dodo is on West side of world facing East.
-     * <p> Final:   Dodo is on East side of world facing East.
-     *              Coordinates of each cell printed in the console.
-     */
+// Geeft het aantal uitgekomen eieren terug
+public int getNrOfEggsHatched() {
+    return myNrOfEggsHatched;
+}
 
-    public void walkToWorldEdgePrintingCoordinates( ){
-        
-            while (!borderAhead()) {
-            
-            move();
-        }
+// Springt een aantal stappen vooruit
+public void jump( int distance ) {
+    int nrStepsTaken = 0;               
+    while ( nrStepsTaken < distance ) {  
+        move();                         
+        nrStepsTaken++;                 
     }
+}
 
-    /**
-     * Test if Dodo can lay an egg.
-     *          (there is not already an egg in the cell)
-     * 
-     * <p> Initial: Dodo is somewhere in the world
-     * <p> Final:   Same as initial situation
-     * 
-     * @return boolean true if Dodo can lay an egg (no egg there)
-     *                 false if Dodo can't lay an egg
-     *                      (already an egg in the cell)
-     */
-
-    public boolean canLayEgg( ){
-        if( onEgg() ){
-             return false;
-        }else{
-            return true;
-        }
-    }  
-    
-    public void turn180() {
-        turnRight();
-        turnRight();
-    
-    }
-    
-    public void climbOverFence() {
-        turnLeft();
+// Loopt naar de rand van de wereld en print steeds de positie
+public void walkToWorldEdgePrintingCoordinates( ){
+    while (!borderAhead()) {
         move();
-        turnRight();
-        move();
-        move();
-        turnRight();
-        move();
-        turnLeft();
     }
-    
-    public void walkToWorldEdgeClimbingOverFences() {
-          while (!isAtWorldEdge()) {
+}
+
+// Checkt of Dodo een ei kan leggen (staat er al een ei?)
+public boolean canLayEgg( ){
+    if( onEgg() ){
+         return false;
+    }else{
+        return true;
+    }
+}
+
+// Draait Dodo 180 graden om
+public void turn180() {
+    turnRight();
+    turnRight();
+}
+
+// Klimt over een hek door een bepaald patroon te lopen
+public void climbOverFence() {
+    turnLeft();
+    move();
+    turnRight();
+    move();
+    move();
+    turnRight();
+    move();
+    turnLeft();
+}
+
+// Loopt naar wereldrand en klimt over hekken waar nodig
+public void walkToWorldEdgeClimbingOverFences() {
+    while (!isAtWorldEdge()) {
         if (isFenceInFront()) {
             climbOverFence();
         } else {
             move();
         }
     }
-    }
-    
-    public boolean isAtWorldEdge() {
-    return getX() == getWorld().getWidth() - 1;
-    }
+}
 
-    public boolean isFenceInFront() {
+// Checkt of Dodo bij de rand van de wereld is
+public boolean isAtWorldEdge() {
+    return getX() == getWorld().getWidth() - 1;
+}
+
+// Checkt of er een hek direct voor Dodo staat
+public boolean isFenceInFront() {
     Actor fence = getOneObjectAtOffset(1, 0, Fence.class);
     return fence != null;
-    }
-    
-    public void goBackToStartOfRowAndFaceBack() {
+}
+
+// Gaat terug naar het begin van de rij en kijkt de andere kant op
+public void goBackToStartOfRowAndFaceBack() {
     turn180();
     while (canMove()) {
         move();
     }
     turn180();
-    }
-    
-    public boolean grainAhead() {
-        move();
-        if (onGrain()) {
-            turn180();
-            move();
-            turn180();
-            return true;
-        }
-        
-        else {
-            turn180();
-            move();
-            turn180();
-            return false;
-        }
-    }
-    
-    public void goToEgg () {
-        while (!onEgg()) {
-        move();
-    }
-    } 
 }
-            
+
+// Checkt of er graan vlak voor Dodo ligt (loopt een stap naar voren)
+public boolean grainAhead() {
+    move();
+    if (onGrain()) {
+        turn180();
+        move();
+        turn180();
+        return true;
+    } else {
+        turn180();
+        move();
+        turn180();
+        return false;
+    }
+}
+
+// Gaat naar een ei toe als Dodo er nog niet op staat
+public void goToEgg () {
+    while (!onEgg()) {
+        move();
+    }
+} 
+}
+
         
     
 

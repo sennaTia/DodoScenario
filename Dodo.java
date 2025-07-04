@@ -120,6 +120,9 @@ public abstract class Dodo extends Actor
         return Greenfoot.getRandomNumber( 4 );
     }
     
+    
+    
+    
     private int modulo( int a, int b ) {
         return (a % b + b) % b;
     }
